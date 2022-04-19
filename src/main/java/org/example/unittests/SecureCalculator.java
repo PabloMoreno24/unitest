@@ -1,7 +1,10 @@
 package org.example.unittests;
 
+import java.util.Random;
+import java.util.RandomAccess;
 import java.util.Set;
 import java.util.logging.Logger;
+
 
 @SuppressWarnings("ALL")
 public class SecureCalculator {
@@ -38,9 +41,13 @@ public class SecureCalculator {
      * @return multiplication result as long
      */
     public long multiply(int a, int b){
-        log("Multiply %s * %s", a, b);
-        long result = a * b;
-        return result;
+        if (a * b > Long.MAX_VALUE){
+            throw new ArithmeticException();
+        } else {
+            log("Multiply %s * %s", a, b);
+            long result = a * b;
+            return result;
+        }
     }
 
     /**
@@ -50,8 +57,12 @@ public class SecureCalculator {
      * @return multiplication result as long
      */
     public double divide(double a, double b){
-        log("Divide %s / %s", a, b);
-        return a / b;
+        if (b==0){
+            throw new ArithmeticException();
+        } else {
+            log("Divide %s / %s", a, b);
+            return a / b;
+        }
     }
 
     /**
@@ -90,7 +101,9 @@ public class SecureCalculator {
      * @return random number in range [0, MAX_VALUE)
      */
     public int getRandomNumber(){
-        return getRandomNumber(Integer.MAX_VALUE);
+        Random random = new Random();
+        int a = random.nextInt(Integer.MAX_VALUE);
+        return a;
     }
 
     /**
@@ -99,6 +112,8 @@ public class SecureCalculator {
      */
     public int getRandomNumber(int bound){
         log("Generating rnd with bound %s", bound);
-        return (int) Math.random() * bound;
+        Random random = new Random();
+        int a = random.nextInt(bound);
+        return a;
     }
 }

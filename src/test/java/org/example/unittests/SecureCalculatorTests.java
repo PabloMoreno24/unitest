@@ -41,4 +41,24 @@ public class SecureCalculatorTests {
             Assertions.assertTrue(calculator.isOdd(i),"Testing "+i);
         }
     }
+
+    @Test
+    public void divideTest(){
+        SecureCalculator calculator = new SecureCalculator();
+        Assertions.assertThrows(ArithmeticException.class,()->calculator.divide(2,0));
+    }
+
+    @Test
+    public void multiplyTest(){
+        SecureCalculator calculator = new SecureCalculator();
+        Assertions.assertThrows(ArithmeticException.class,()->calculator.multiply(Integer.MAX_VALUE,Integer.MAX_VALUE));
+        Assertions.assertThrows(ArithmeticException.class,()->calculator.multiply(Integer.MIN_VALUE,Integer.MAX_VALUE));
+        Assertions.assertThrows(ArithmeticException.class,()->calculator.multiply(Integer.MIN_VALUE,Integer.MIN_VALUE));
+    }
+
+    @Test
+    public void randomTest(){
+        SecureCalculator calculator = new SecureCalculator();
+        Assertions.assertTrue(calculator.getRandomNumber(6)<=6);
+    }
 }
