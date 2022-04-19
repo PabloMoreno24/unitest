@@ -32,7 +32,13 @@ public class SecureCalculatorTests {
         for (int i = 0; i<100; i++){
             Assertions.assertTrue(calculator.isEven(i*2),"Testing "+i);
         }
+    }
 
-
+    @Test
+    public void isOddTest(){
+        SecureCalculator calculator = new SecureCalculator();
+        for (int i = 1; i<100; i = i+2){
+            Assertions.assertTrue(calculator.isOdd(i),"Testing "+i);
+        }
     }
 }
