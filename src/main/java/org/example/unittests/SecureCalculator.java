@@ -41,13 +41,17 @@ public class SecureCalculator {
      * @return multiplication result as long
      */
     public long multiply(int a, int b){
-        if (a * b > Long.MAX_VALUE){
+        /*if ((long)a * (long)b > Integer.MAX_VALUE || (long)a * (long)b < Integer.MIN_VALUE){
             throw new ArithmeticException();
         } else {
             log("Multiply %s * %s", a, b);
-            long result = a * b;
+            long result = (long)a * (long)b;
             return result;
-        }
+        }*/
+       log("Multiply %s * %s", a, b);
+       long result =  Math.multiplyExact(a,b);
+       return result;
+
     }
 
     /**
@@ -71,9 +75,13 @@ public class SecureCalculator {
      * @param b
      * @return a mod b
      */
-    public int mod(int a, int b){
-        log("%s mod %s", a, b);
-        return a % b;
+    public int mod(int a, int b) {
+        if (b == 0) {
+            throw new ArithmeticException();
+        } else {
+            log("%s mod %s", a, b);
+            return a % b;
+        }
     }
 
     /**

@@ -2,6 +2,12 @@ package org.example.unittests;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.BDDMockito;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
+
+import java.util.logging.Logger;
 
 /**
  * El nuevo becario se ha encargado de programar una nueva calculadora para nuestro sistema de cobro en caja.
@@ -52,13 +58,35 @@ public class SecureCalculatorTests {
     public void multiplyTest(){
         SecureCalculator calculator = new SecureCalculator();
         Assertions.assertThrows(ArithmeticException.class,()->calculator.multiply(Integer.MAX_VALUE,Integer.MAX_VALUE));
-        Assertions.assertThrows(ArithmeticException.class,()->calculator.multiply(Integer.MIN_VALUE,Integer.MAX_VALUE));
         Assertions.assertThrows(ArithmeticException.class,()->calculator.multiply(Integer.MIN_VALUE,Integer.MIN_VALUE));
+        Assertions.assertThrows(ArithmeticException.class,()->calculator.multiply(Integer.MAX_VALUE,Integer.MIN_VALUE));
+        Assertions.assertDoesNotThrow(()->calculator.multiply(5,5));
+        Assertions.assertThrows(ArithmeticException.class,()->calculator.multiply(Integer.MAX_VALUE,2));
+        Assertions.assertThrows(ArithmeticException.class,()->calculator.multiply(2,Integer.MIN_VALUE));
     }
 
     @Test
     public void randomTest(){
         SecureCalculator calculator = new SecureCalculator();
         Assertions.assertTrue(calculator.getRandomNumber(6)<=6);
+        Assertions.assertTrue(calculator.getRandomNumber()<Integer.MAX_VALUE);
+    }
+
+    @Test
+    public void modTest(){
+        SecureCalculator calculator = new SecureCalculator();
+        Assertions.assertThrows(ArithmeticException.class,()->calculator.mod(2,0));
+    }
+
+    @Mock
+     Logger logger;
+
+    @Test
+    public void logTest(){
+        logger = Logger.getLogger("MyLog");
+        SecureCalculator calculator = new SecureCalculator(logger);
+        calculator.multiply(1,2);
+        BDDMockito.verify(logger).info(Mockito.anyString());
+
     }
 }
